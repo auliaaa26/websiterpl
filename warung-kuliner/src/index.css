@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-orange: #E87717;
+  --color-brand-cream: #FDF5ED;
+  --color-brand-dark: #4A2E1B;
+}
+
+:root {
+  --sans: 'Poppins', system-ui, -apple-system, sans-serif;
+  font: 14px/145% var(--sans);
+  color: #4A2E1B;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.btn-signin-orange {
+  background-color: #E87717 !important;
+  color: #ffffff !important;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-signin-orange:hover {
+  background-color: #cd640d !important;
+  transform: scale(1.01);
+}
+
+/* Hilangkan scrollbar tapi tetap bisa scroll */
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
