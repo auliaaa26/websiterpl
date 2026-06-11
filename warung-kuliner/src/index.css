@@ -38,3 +38,4 @@ body {
 .scrollbar-none::-webkit-scrollbar {
   display: none;
 }
+@import "./Responsive.css";
