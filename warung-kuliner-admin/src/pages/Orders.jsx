@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { supabase } from '../config/supabase'
-import { Printer, Eye } from 'lucide-react'
+import { Printer, Eye, CheckCircle } from 'lucide-react'
 
 function BuktiBayarModal({ url, onClose }) {
   if (!url) return null
@@ -42,17 +42,16 @@ const STATUS_LABEL = {
   tempo:               'Tempo',
 }
 
-// Opsi status yang bisa dipilih admin per status saat ini
-// Mencegah admin loncat status yang tidak masuk akal
+// Setelah dikonfirmasi (diterima), dropdown hanya punya diproses & dibatalkan
 const STATUS_OPTIONS = {
-  pending:             ['pending', 'diterima', 'dibatalkan'],
-  menunggu_konfirmasi: ['menunggu_konfirmasi', 'diterima', 'dibatalkan'],
-  diterima:            ['diterima', 'diproses', 'dibatalkan'],
-  diproses:            ['diproses', 'dikirim', 'dibatalkan'],
-  dikirim:             ['dikirim'],
-  dibatalkan:          ['dibatalkan'],
-  tempo:               ['tempo', 'diterima', 'dibatalkan'],
+  diterima:   ['diproses', 'dibatalkan'],
+  diproses:   ['diproses', 'dikirim', 'dibatalkan'],
+  dikirim:    ['dikirim'],
+  dibatalkan: ['dibatalkan'],
 }
+
+// Status yang PERLU tombol konfirmasi (bukan dropdown)
+const NEEDS_CONFIRM = ['pending', 'menunggu_konfirmasi', 'tempo']
 
 function StatusDropdown({ currentStatus, onUpdate }) {
   const options = STATUS_OPTIONS[currentStatus] || [currentStatus]
@@ -81,6 +80,37 @@ function StatusDropdown({ currentStatus, onUpdate }) {
         <option key={s} value={s}>{STATUS_LABEL[s] || s}</option>
       ))}
     </select>
+  )
+}
+
+// Tombol konfirmasi untuk status pending / menunggu_konfirmasi / tempo
+function KonfirmasiButton({ onConfirm, onBatal }) {
+  return (
+    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+      <button
+        onClick={onConfirm}
+        style={{
+          display: 'flex', alignItems: 'center', gap: 4,
+          background: '#D1FAE5', color: '#065F46',
+          border: 'none', borderRadius: 6,
+          padding: '5px 10px', fontSize: 11, fontWeight: 700,
+          cursor: 'pointer', whiteSpace: 'nowrap',
+        }}
+      >
+        <CheckCircle size={12} /> Konfirmasi
+      </button>
+      <button
+        onClick={onBatal}
+        style={{
+          background: '#FEE2E2', color: '#DC2626',
+          border: 'none', borderRadius: 6,
+          padding: '5px 10px', fontSize: 11, fontWeight: 700,
+          cursor: 'pointer', whiteSpace: 'nowrap',
+        }}
+      >
+        Batalkan
+      </button>
+    </div>
   )
 }
 
@@ -168,15 +198,16 @@ export default function Orders() {
             <th style={{ padding: 12 }}>Nama Pelanggan</th>
             <th style={{ padding: 12 }}>Detail Pesanan</th>
             <th style={{ padding: 12 }}>Total Harga</th>
+            <th style={{ padding: 12 }}>Pembayaran</th>
             <th style={{ padding: 12 }}>Bukti Bayar</th>
-            <th style={{ padding: 12 }}>Status</th>
+            <th style={{ padding: 12 }}>Aksi</th>
           </tr>
         </thead>
         <tbody>
           {loading ? (
-            <tr><td colSpan="6" style={{ textAlign: 'center', padding: 16 }}>Memuat data...</td></tr>
+            <tr><td colSpan="7" style={{ textAlign: 'center', padding: 16 }}>Memuat data...</td></tr>
           ) : orders.length === 0 ? (
-            <tr><td colSpan="6" style={{ textAlign: 'center', padding: 16, color: 'var(--gray-400)' }}>Belum ada pesanan masuk.</td></tr>
+            <tr><td colSpan="7" style={{ textAlign: 'center', padding: 16, color: 'var(--gray-400)' }}>Belum ada pesanan masuk.</td></tr>
           ) : orders.map(o => (
             <tr
               key={o.id_pesanan}
@@ -196,6 +227,23 @@ export default function Orders() {
               <td style={{ padding: 12, fontWeight: 600 }}>
                 Rp.{Number(o.total_harga)?.toLocaleString('id-ID')}
               </td>
+
+              {/* Kolom Pembayaran — tampilkan badge Tempo kalau metode tempo */}
+              <td style={{ padding: 12 }}>
+                {o.metode_bayar === 'tempo' || o.status === 'tempo' ? (
+                  <span style={{
+                    background: '#F3E8FF', color: '#7C3AED',
+                    fontSize: 11, fontWeight: 700,
+                    padding: '3px 10px', borderRadius: 999,
+                    display: 'inline-block',
+                  }}>
+                    📋 Tempo
+                  </span>
+                ) : (
+                  <span style={{ fontSize: 11, color: 'var(--gray-400)' }}>—</span>
+                )}
+              </td>
+
               <td style={{ padding: 12 }}>
                 {o.bukti_bayar ? (
                   <button
@@ -212,11 +260,20 @@ export default function Orders() {
                   <span style={{ fontSize: 11, color: 'var(--gray-400)' }}>Tidak ada</span>
                 )}
               </td>
+
+              {/* Kolom Aksi: tombol Konfirmasi/Batalkan untuk status awal, dropdown untuk yang sudah diterima */}
               <td style={{ padding: 12 }}>
-                <StatusDropdown
-                  currentStatus={o.status}
-                  onUpdate={(newStatus) => updateStatus(o.id_pesanan, newStatus)}
-                />
+                {NEEDS_CONFIRM.includes(o.status) ? (
+                  <KonfirmasiButton
+                    onConfirm={() => updateStatus(o.id_pesanan, 'diterima')}
+                    onBatal={() => updateStatus(o.id_pesanan, 'dibatalkan')}
+                  />
+                ) : (
+                  <StatusDropdown
+                    currentStatus={o.status}
+                    onUpdate={(newStatus) => updateStatus(o.id_pesanan, newStatus)}
+                  />
+                )}
               </td>
             </tr>
           ))}

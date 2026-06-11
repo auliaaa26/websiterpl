@@ -1,81 +1,26 @@
 import { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import { supabase } from '../config/supabase';
+import { useNavigate } from 'react-router-dom';
 
 function getStatusConfig(status) {
   switch (status) {
     case 'pending':
-      return {
-        label: 'Menunggu',
-        icon: '🕐',
-        desc: 'Pesananmu sedang menunggu konfirmasi admin.',
-        borderColor: '#FDE68A',
-        bgColor: '#FFFBEB',
-        textColor: '#D97706',
-      };
+      return { label: 'Menunggu', icon: '🕐', desc: 'Pesananmu sedang menunggu konfirmasi admin.', borderColor: '#FDE68A', bgColor: '#FFFBEB', textColor: '#D97706' };
     case 'menunggu_konfirmasi':
-      return {
-        label: 'Verifikasi Bayar',
-        icon: '🔍',
-        desc: 'Bukti pembayaranmu sedang diverifikasi oleh admin.',
-        borderColor: '#BFDBFE',
-        bgColor: '#EFF6FF',
-        textColor: '#1D4ED8',
-      };
+      return { label: 'Verifikasi Bayar', icon: '🔍', desc: 'Bukti pembayaranmu sedang diverifikasi oleh admin.', borderColor: '#BFDBFE', bgColor: '#EFF6FF', textColor: '#1D4ED8' };
     case 'diterima':
-      return {
-        label: 'Diterima',
-        icon: '✅',
-        desc: 'Pesananmu sudah dikonfirmasi dan akan segera diproses.',
-        borderColor: '#6EE7B7',
-        bgColor: '#ECFDF5',
-        textColor: '#059669',
-      };
+      return { label: 'Diterima', icon: '✅', desc: 'Pesananmu sudah dikonfirmasi dan akan segera diproses.', borderColor: '#6EE7B7', bgColor: '#ECFDF5', textColor: '#059669' };
     case 'diproses':
-      return {
-        label: 'Sedang Diproses',
-        icon: '👨‍🍳',
-        desc: 'Pesananmu sedang disiapkan oleh dapur.',
-        borderColor: '#C7D2FE',
-        bgColor: '#EEF2FF',
-        textColor: '#4338CA',
-      };
+      return { label: 'Sedang Diproses', icon: '👨‍🍳', desc: 'Pesananmu sedang disiapkan oleh dapur.', borderColor: '#C7D2FE', bgColor: '#EEF2FF', textColor: '#4338CA' };
     case 'dikirim':
-      return {
-        label: 'Dikirim',
-        icon: '🚀',
-        desc: 'Pesananmu sudah dalam perjalanan ke kamarmu!',
-        borderColor: '#86EFAC',
-        bgColor: '#F0FDF4',
-        textColor: '#15803D',
-      };
+      return { label: 'Dikirim', icon: '🚀', desc: 'Pesananmu sudah dalam perjalanan ke kamarmu!', borderColor: '#86EFAC', bgColor: '#F0FDF4', textColor: '#15803D' };
     case 'dibatalkan':
-      return {
-        label: 'Dibatalkan',
-        icon: '❌',
-        desc: 'Pesananmu dibatalkan. Hubungi admin untuk info lebih lanjut.',
-        borderColor: '#FECACA',
-        bgColor: '#FEF2F2',
-        textColor: '#DC2626',
-      };
+      return { label: 'Dibatalkan', icon: '❌', desc: 'Pesananmu dibatalkan. Hubungi admin untuk info lebih lanjut.', borderColor: '#FECACA', bgColor: '#FEF2F2', textColor: '#DC2626' };
     case 'tempo':
-      return {
-        label: 'Tempo',
-        icon: '📋',
-        desc: 'Pesananmu dicatat sebagai pembayaran tempo (jatuh tempo 14 hari).',
-        borderColor: '#DDD6FE',
-        bgColor: '#FAF5FF',
-        textColor: '#7C3AED',
-      };
+      return { label: 'Tempo', icon: '📋', desc: 'Kamu memilih pembayaran tempo. Segera lunasi sebelum jatuh tempo!', borderColor: '#DDD6FE', bgColor: '#FAF5FF', textColor: '#7C3AED' };
     default:
-      return {
-        label: status,
-        icon: '📦',
-        desc: '',
-        borderColor: '#E5E7EB',
-        bgColor: '#F9FAFB',
-        textColor: '#6B7280',
-      };
+      return { label: status, icon: '📦', desc: '', borderColor: '#E5E7EB', bgColor: '#F9FAFB', textColor: '#6B7280' };
   }
 }
 
@@ -91,6 +36,7 @@ const formatTanggal = (iso) => {
 export default function Notification() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchMyOrders();
@@ -109,7 +55,6 @@ export default function Notification() {
     setLoading(true);
     try {
       const { data: { user } } = await supabase.auth.getUser();
-
       const { data: pelanggan } = await supabase
         .from('pelanggan')
         .select('nama, kamar')
@@ -131,6 +76,18 @@ export default function Notification() {
     } finally {
       setLoading(false);
     }
+  };
+
+  // Klik "Bayar Sekarang" → lari ke /payment dengan data tagihan via state
+  const handleBayarTempo = (order) => {
+    navigate('/payment', {
+      state: {
+        fromTempo: true,
+        id_pesanan: order.id_pesanan,
+        total_harga: order.total_harga,
+        detail_pesanan: order.detail_pesanan,
+      }
+    });
   };
 
   return (
@@ -189,6 +146,31 @@ export default function Notification() {
                     {cfg.desc}
                   </p>
                 ) : null}
+
+                {/* Tombol Bayar — hanya muncul kalau status tempo */}
+                {order.status === 'tempo' && (
+                  <button
+                    onClick={() => handleBayarTempo(order)}
+                    style={{
+                      marginTop: 12,
+                      width: '100%',
+                      background: '#7C3AED',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: 8,
+                      padding: '10px 0',
+                      fontWeight: 700,
+                      fontSize: 13,
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: 6,
+                    }}
+                  >
+                    💳 Bayar Sekarang — Rp {Number(order.total_harga).toLocaleString('id-ID')}
+                  </button>
+                )}
 
                 <p style={{ marginTop: 8, fontSize: 10, color: '#D1D5DB' }}>
                   {formatTanggal(order.created_at)}

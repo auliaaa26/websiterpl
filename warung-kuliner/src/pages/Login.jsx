@@ -57,26 +57,6 @@ export default function Login() {
     }
   };
 
-  const handleGoogleLogin = () => {
-    Swal.fire({
-      title: 'Rekomendasi Masuk',
-      text: 'Disarankan untuk masuk menggunakan akun Google utama Anda demi keamanan data.',
-      icon: 'info',
-      confirmButtonText: 'Lanjutkan dengan Google',
-      confirmButtonColor: '#E87717',
-      showCancelButton: true,
-      cancelButtonText: 'Batal',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire({
-          title: 'Berhasil!',
-          text: 'Fitur Google Sign-In sedang disiapkan.',
-          icon: 'success',
-          confirmButtonColor: '#E87717',
-        });
-      }
-    });
-  };
 
   return (
     <div className="flex-1 flex flex-col bg-white min-h-screen">
@@ -132,38 +112,14 @@ export default function Login() {
 
         {/* Footer OAuth & Informasi Akun */}
         <div className="text-center space-y-4 mt-8">
-          <div className="flex items-center my-4 text-gray-400 text-xs">
-            <div className="flex-1 h-[1px] bg-gray-200"></div>
-            <span className="px-3">Or</span>
-            <div className="flex-1 h-[1px] bg-gray-200"></div>
-          </div>
-          
-          <p 
-            onClick={() => {
-              Swal.fire({
-                title: 'Informasi Pendaftaran',
-                text: 'Untuk mendapatkan akun, silakan hubungi Kasir / Admin utama warung untuk mendaftarkan nomor kamar Anda.',
-                icon: 'info',
-                confirmButtonColor: '#E87717'
-              });
-            }} 
-            className="text-xs text-gray-500 cursor-pointer hover:text-brand-orange hover:underline transition"
+          <a
+            href="https://wa.me/628888385316?text=Halo%20Admin%2C%20saya%20ingin%20mendaftar%20akun%20di%20Warung%20Kuliner%203%20Putri."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-gray-500 hover:text-brand-orange hover:underline transition"
           >
-            Haven't any account? <span className="font-semibold text-brand-orange">Hubungi Admin</span>
-          </p>
-          
-          <button 
-            type="button"
-            onClick={handleGoogleLogin}
-            className="mx-auto w-10 h-10 border border-gray-200 rounded-full flex items-center justify-center shadow-sm hover:bg-gray-50 transition"
-          >
-            <svg className="w-5 h-5" viewBox="0 0 24 24">
-              <path fill="#EA4335" d="M5.266 9.765A7.077 7.077 0 0112 4.909c1.69 0 3.218.6 4.418 1.582L19.91 3C17.782 1.145 15.055 0 12 0 7.273 0 3.191 2.69 1.145 6.655l4.12 3.11z" />
-              <path fill="#34A853" d="M16.04 15.345c-1.073.736-2.428 1.164-4.04 1.164-2.955 0-5.464-2-6.355-4.691L1.464 14.91C3.59 19.19 8.355 22 12 22c3.055 0 5.891-1 8.036-2.855l-4-3.8z" />
-              <path fill="#4285F4" d="M23.491 12.273c0-.818-.082-1.609-.218-2.364H12v4.51h6.473c-.29 1.482-1.127 2.727-2.391 3.564l4 3.8c2.336-2.154 3.418-5.327 3.418-9.51z" />
-              <path fill="#FBBC05" d="M5.645 13.818A6.974 6.974 0 015.31 12c0-.627.1-1.236.273-1.818L1.464 7.073A11.906 11.906 0 000 12c0 1.764.382 3.436 1.064 4.955l4.581-3.137z" />
-            </svg>
-          </button>
+            Belum punya akun? <span className="font-semibold text-brand-orange">Hubungi Admin</span>
+          </a>
         </div>
       </form>
     </div>

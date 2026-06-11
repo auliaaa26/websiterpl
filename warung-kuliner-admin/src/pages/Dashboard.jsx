@@ -32,51 +32,59 @@ export default function Dashboard() {
 
   const fetchData = async () => {
     setLoading(true)
-    const today = new Date().toISOString().split('T')[0]
-    const year = new Date().getFullYear()
-    const monthStr = String(selectedMonth + 1).padStart(2, '0')
-    const startDate = `${year}-${monthStr}-01`
+
+    const now = new Date()
+    const year = now.getFullYear()
+
+    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0).toISOString()
+    const todayEnd   = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59).toISOString()
+
     const daysInMonth = new Date(year, selectedMonth + 1, 0).getDate()
-    const endDate = `${year}-${monthStr}-${daysInMonth}`
+    const monthStart  = new Date(year, selectedMonth, 1, 0, 0, 0).toISOString()
+    const monthEnd    = new Date(year, selectedMonth, daysInMonth, 23, 59, 59).toISOString()
 
     // Total pesanan hari ini (semua status kecuali dibatalkan)
     const { count: todayOrders } = await supabase
       .from('pesanan_masuk')
       .select('*', { count: 'exact', head: true })
-      .gte('created_at', today + 'T00:00:00')
+      .gte('created_at', todayStart)
+      .lte('created_at', todayEnd)
       .not('status', 'eq', 'dibatalkan')
 
-    // Pendapatan hari ini — HANYA dari status 'diterima'
+    // Pendapatan hari ini — semua status kecuali dibatalkan
     const { data: revenueData } = await supabase
       .from('pesanan_masuk')
       .select('total_harga')
-      .gte('created_at', today + 'T00:00:00')
-      .eq('status', 'diterima')
-    const revenue = revenueData?.reduce((s, o) => s + (o.total_harga || 0), 0) || 0
+      .gte('created_at', todayStart)
+      .lte('created_at', todayEnd)
+      .not('status', 'eq', 'dibatalkan')
 
-    // Pending + menunggu konfirmasi
+    const revenue = revenueData?.reduce((s, o) => s + (Number(o.total_harga) || 0), 0) || 0
+
+    // Perlu konfirmasi = status 'diproses'
     const { count: pending } = await supabase
       .from('pesanan_masuk')
       .select('*', { count: 'exact', head: true })
-      .in('status', ['pending', 'menunggu_konfirmasi'])
+      .eq('status', 'diproses')
 
-    // Tagihan tempo yang sudah lewat jatuh tempo & belum lunas
+    // Tagihan tempo jatuh tempo & belum lunas
     const { data: tempoData } = await supabase
       .from('pembayaran_tempo')
       .select('total_tagihan')
       .eq('status', 'Belum Lunas')
       .lt('jatuh_tempo', new Date().toISOString())
-    const tempo = tempoData?.reduce((s, t) => s + (t.total_tagihan || 0), 0) || 0
+
+    const tempo = tempoData?.reduce((s, t) => s + (Number(t.total_tagihan) || 0), 0) || 0
 
     setStats({ orders: todayOrders || 0, revenue, pending: pending || 0, tempo })
 
-    // Chart: pendapatan per hari di bulan yang dipilih (hanya status diterima)
+    // Chart: pendapatan per hari di bulan yang dipilih (semua kecuali dibatalkan)
     const { data: monthOrders } = await supabase
       .from('pesanan_masuk')
       .select('created_at, total_harga')
-      .gte('created_at', startDate)
-      .lte('created_at', endDate + 'T23:59:59')
-      .eq('status', 'diterima')
+      .gte('created_at', monthStart)
+      .lte('created_at', monthEnd)
+      .not('status', 'eq', 'dibatalkan')
 
     const byDay = {}
     for (let d = 1; d <= daysInMonth; d++) {
@@ -85,15 +93,16 @@ export default function Dashboard() {
     monthOrders?.forEach(o => {
       const d = new Date(o.created_at).getDate()
       if (byDay[d]) {
-        byDay[d].total += o.total_harga || 0
+        byDay[d].total += Number(o.total_harga) || 0
         byDay[d].count++
       }
     })
+
     setChartData(Object.values(byDay))
     setLoading(false)
   }
 
-  const fmt = (n) => 'Rp.' + n.toLocaleString('id-ID')
+  const fmt = (n) => 'Rp.' + Number(n).toLocaleString('id-ID')
 
   return (
     <div>
@@ -116,17 +125,17 @@ export default function Dashboard() {
               label="Total Pesanan hari ini"
               value={loading ? '...' : stats.orders}
               sub="Pesanan masuk hari ini"
-              subColor="var(--green)"
-              icon={<ShoppingBag size={20} color="var(--orange)" />}
+              subColor="#22c55e"
+              icon={<ShoppingBag size={20} color="#f97316" />}
               iconBg="white"
             />
 
             <StatCard
               label="Total Pendapatan hari ini"
               value={loading ? '...' : fmt(stats.revenue)}
-              sub="Dari pesanan yang sudah diterima"
-              subColor="var(--green)"
-              icon={<Wallet size={20} color="var(--green)" />}
+              sub="Dari semua pesanan hari ini"
+              subColor="#22c55e"
+              icon={<Wallet size={20} color="#22c55e" />}
               iconBg="white"
             />
 
@@ -134,17 +143,17 @@ export default function Dashboard() {
               label="Tagihan Tempo Jatuh Tempo"
               value={loading ? '...' : fmt(stats.tempo)}
               sub={stats.tempo > 0 ? '⚠️ Ada tagihan yang belum dibayar!' : '✓ Semua tagihan aman'}
-              subColor={stats.tempo > 0 ? 'var(--red)' : 'var(--green)'}
-              icon={<Clock size={20} color="var(--yellow)" />}
+              subColor={stats.tempo > 0 ? '#ef4444' : '#22c55e'}
+              icon={<Clock size={20} color="#f59e0b" />}
               iconBg="white"
             />
 
             <StatCard
-              label="Perlu Konfirmasi"
+              label="Sedang Diproses"
               value={loading ? '...' : stats.pending}
-              sub={stats.pending > 0 ? 'Ada pesanan menunggu konfirmasi' : 'Tidak ada pesanan pending'}
-              subColor={stats.pending > 0 ? 'var(--red)' : 'var(--green)'}
-              icon={<AlertCircle size={20} color="var(--red)" />}
+              sub={stats.pending > 0 ? 'Ada pesanan sedang diproses' : 'Tidak ada pesanan diproses'}
+              subColor={stats.pending > 0 ? '#ef4444' : '#22c55e'}
+              icon={<AlertCircle size={20} color="#ef4444" />}
               iconBg="white"
             />
 
@@ -155,7 +164,7 @@ export default function Dashboard() {
               <div>
                 <span style={{ fontWeight: 700, fontSize: 15 }}>Detail Penjualan</span>
                 <span style={{ fontSize: 11, color: 'var(--gray-400)', marginLeft: 8 }}>
-                  (hanya pesanan diterima)
+                  (semua pesanan kecuali dibatalkan)
                 </span>
               </div>
               <select
@@ -177,8 +186,8 @@ export default function Dashboard() {
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="var(--gray-100)" />
                 <XAxis dataKey="day" tick={{ fontSize: 11 }} />
-                <YAxis tick={{ fontSize: 11 }} tickFormatter={(v) => v === 0 ? '0' : (v/1000) + 'k'} />
-                <Tooltip formatter={(v) => ['Rp.' + v.toLocaleString('id-ID'), 'Pendapatan']} labelFormatter={(l) => `Tanggal ${l}`} />
+                <YAxis tick={{ fontSize: 11 }} tickFormatter={(v) => v === 0 ? '0' : v >= 1000 ? (v/1000).toFixed(0) + 'k' : v} />
+                <Tooltip formatter={(v) => ['Rp.' + Number(v).toLocaleString('id-ID'), 'Pendapatan']} labelFormatter={(l) => `Tanggal ${l}`} />
                 <Area
                   type="monotone"
                   dataKey="total"

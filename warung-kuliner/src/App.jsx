@@ -11,18 +11,46 @@ import Profile from './pages/Profile';
 function App() {
   return (
     <Router>
-      {/* Container dibuat maksimal selebar mobile (seperti mockup di video) */}
-      <div className="max-w-md mx-auto min-h-screen bg-brand-orange shadow-2xl relative flex flex-col overflow-x-hidden overflow-hidden" style={{ contain: 'layout' }}>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/detail" element={<DetailMenu />} />
-          <Route path="/order" element={<OrderSummary />} />
-          <Route path="/payment" element={<Payment />} />
-          <Route path="/notification" element={<Notification />} />
-          <Route path="/profile" element={<Profile />} />
-        </Routes>
+      {/*
+        Responsive container:
+        - Mobile  (<640px)  : full width, no shadow  → tampilan asli seperti semula
+        - Tablet  (640–1023px): max-w-lg centered, with shadow card
+        - Desktop (≥1024px) : two-column layout — sidebar kiri + konten kanan
+      */}
+      <div className="app-shell">
+        {/* Sidebar hanya tampil di desktop */}
+        <aside className="app-sidebar">
+          <div className="sidebar-brand">
+            <span className="sidebar-logo">🍽️</span>
+            <div>
+              <p className="sidebar-title">Warung Kuliner</p>
+              <p className="sidebar-sub">3 Putri</p>
+            </div>
+          </div>
+          <nav className="sidebar-nav">
+            <a href="/home"         className="sidebar-link">🏠 Beranda</a>
+            <a href="/order"        className="sidebar-link">🛒 Pesanan</a>
+            <a href="/notification" className="sidebar-link">🔔 Notifikasi</a>
+            <a href="/profile"      className="sidebar-link">👤 Profil</a>
+          </nav>
+          <p className="sidebar-footer">© 2025 Warung Kuliner 3 Putri</p>
+        </aside>
+
+        {/* Konten utama — selalu ada di semua ukuran */}
+        <main className="app-main">
+          <div className="app-card">
+            <Routes>
+              <Route path="/"            element={<Login />} />
+              <Route path="/register"    element={<Register />} />
+              <Route path="/home"        element={<Home />} />
+              <Route path="/detail"      element={<DetailMenu />} />
+              <Route path="/order"       element={<OrderSummary />} />
+              <Route path="/payment"     element={<Payment />} />
+              <Route path="/notification" element={<Notification />} />
+              <Route path="/profile"     element={<Profile />} />
+            </Routes>
+          </div>
+        </main>
       </div>
     </Router>
   );
