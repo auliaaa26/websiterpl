@@ -28,6 +28,7 @@
 /* ---------- CARD ---------- */
 .app-card {
   width: 100%;
+  max-width: 100%;
   min-height: 100svh;
   background-color: #ffffff;
   display: flex;
@@ -41,7 +42,7 @@
 /* ============================================================
    TABLET  ≥ 640px
    ============================================================ */
-@media (min-width: 640px) {
+@media (min-width: 768px) {
   .app-shell {
     padding: 24px 0;
     align-items: center;
