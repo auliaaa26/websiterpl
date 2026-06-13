@@ -17,6 +17,13 @@ const kategoriList = [
   { label: 'Minuman', id: 'minuman' },
 ];
 
+// Helper parsing harga yang aman
+const parseHarga = (harga) => {
+  if (typeof harga === 'number') return harga;
+  if (typeof harga === 'string') return parseInt(harga.replace(/\D/g, ''), 10) || 0;
+  return 0;
+};
+
 export default function Home() {
   const navigate = useNavigate();
   const { addToCart, totalCount } = useCart();
@@ -31,7 +38,6 @@ export default function Home() {
   const [mostOrderedData, setMostOrderedData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch menu dari Supabase
   useEffect(() => {
     const fetchMenuFromSupabase = async () => {
       try {
@@ -67,7 +73,6 @@ export default function Home() {
     fetchMenuFromSupabase();
   }, []);
 
-  // Fetch tagihan tempo pelanggan yang login
   useEffect(() => {
     const fetchTagihan = async () => {
       try {
@@ -241,7 +246,7 @@ export default function Home() {
           </div>
         )}
 
-        {/* MOST ORDERED SECTION */}
+        {/* MOST ORDERED */}
         {category === 'paket' && !isSearching && mostOrderedData.length > 0 && (
           <div className="mb-6">
             <h3 className="font-bold text-sm mb-3 text-brand-dark">Most ordered</h3>
@@ -259,7 +264,7 @@ export default function Home() {
           </div>
         )}
 
-        {/* GRID DAFTAR MENU */}
+        {/* GRID DAFTAR MENU — responsif: 2 kolom di mobile, 3 di layar lebar */}
         <div className="mb-6">
           <h3 className="font-bold text-sm mb-3 text-brand-dark">
             {isSearching ? `Hasil pencarian "${searchQuery}"` : judulSection}
@@ -273,11 +278,19 @@ export default function Home() {
                 <div key={item.id}
                   onClick={() => navigate('/detail', { state: { menu: item } })}
                   className="bg-white rounded-2xl p-3 border border-orange-100 text-center cursor-pointer hover:shadow-md transition relative">
-                  <img src={item.foto || fotoPlaceholder} className="w-20 h-20 object-cover rounded-full mx-auto mb-2 border-2 border-orange-200" alt={item.nama} />
+                  <img
+                    src={item.foto || fotoPlaceholder}
+                    className="w-20 h-20 object-cover rounded-full mx-auto mb-2 border-2 border-orange-200"
+                    alt={item.nama}
+                  />
                   <p className="text-xs font-semibold text-brand-dark leading-tight line-clamp-2 h-8 flex items-center justify-center">{item.nama}</p>
-                  <p className="text-xs text-brand-orange mt-1 font-bold">Rp {Number(item.harga).toLocaleString('id-ID')}</p>
-                  <button onClick={(e) => handleAddToCart(e, item)}
-                    className="absolute bottom-2 right-2 w-6 h-6 bg-brand-orange rounded-full flex items-center justify-center shadow hover:bg-orange-600 transition">
+                  <p className="text-xs text-brand-orange mt-1 font-bold">
+                    Rp {parseHarga(item.harga).toLocaleString('id-ID')}
+                  </p>
+                  <button
+                    onClick={(e) => handleAddToCart(e, item)}
+                    className="absolute bottom-2 right-2 w-6 h-6 bg-brand-orange rounded-full flex items-center justify-center shadow hover:bg-orange-600 transition"
+                  >
                     <Plus className="w-3.5 h-3.5 text-white" />
                   </button>
                 </div>
@@ -294,10 +307,14 @@ export default function Home() {
             <div className="w-12 h-1 bg-gray-300 rounded-full mx-auto mb-4" />
             <img src={selectedMenu.foto || fotoPlaceholder} alt={selectedMenu.nama} className="w-full h-48 object-cover rounded-2xl mb-4" />
             <h4 className="font-bold text-base text-brand-dark">{selectedMenu.nama}</h4>
-            <p className="text-sm text-brand-orange font-bold mt-1 mb-3">Rp {Number(selectedMenu.harga).toLocaleString('id-ID')}</p>
+            <p className="text-sm text-brand-orange font-bold mt-1 mb-3">
+              Rp {parseHarga(selectedMenu.harga).toLocaleString('id-ID')}
+            </p>
             <p className="text-xs text-gray-500 mb-6">{selectedMenu.deskripsi || 'Tidak ada deskripsi pelengkap.'}</p>
-            <button onClick={handleAddFromModal}
-              className="w-full bg-brand-orange text-white text-xs font-semibold py-3 rounded-full shadow hover:bg-orange-600 transition">
+            <button
+              onClick={handleAddFromModal}
+              className="w-full bg-brand-orange text-white text-xs font-semibold py-3 rounded-full shadow hover:bg-orange-600 transition"
+            >
               Tambah ke Keranjang Belanja
             </button>
           </div>

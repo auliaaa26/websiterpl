@@ -1,20 +1,19 @@
 /* ============================================================
-   responsive.css  —  Import ini di index.css atau main.jsx
-   Tidak mengubah tampilan mobile sama sekali, hanya menambah
-   breakpoint tablet & desktop di atas gaya yang sudah ada.
+   Responsive.css — Tidak mengubah tampilan mobile sama sekali,
+   hanya menambah breakpoint tablet & desktop.
    ============================================================ */
 
-/* ---------- SHELL (wrapper paling luar) ---------- */
+/* ---------- SHELL ---------- */
 .app-shell {
   min-height: 100svh;
-  background-color: #E87717; /* brand-orange sebagai background global */
+  background-color: #E87717;
   display: flex;
   flex-direction: column;
 }
 
 /* ---------- SIDEBAR (tersembunyi di mobile & tablet) ---------- */
 .app-sidebar {
-  display: none; /* hidden by default */
+  display: none;
 }
 
 /* ---------- MAIN AREA ---------- */
@@ -26,7 +25,7 @@
   padding: 0;
 }
 
-/* ---------- CARD (tampilan "phone frame") ---------- */
+/* ---------- CARD ---------- */
 .app-card {
   width: 100%;
   min-height: 100svh;
@@ -41,7 +40,6 @@
 
 /* ============================================================
    TABLET  ≥ 640px
-   Card terpusat, terlihat seperti mockup di latar oranye
    ============================================================ */
 @media (min-width: 640px) {
   .app-shell {
@@ -51,7 +49,7 @@
 
   .app-main {
     width: 100%;
-    max-width: 430px; /* lebar phone */
+    max-width: 430px;
     padding: 0;
   }
 
@@ -67,7 +65,6 @@
 
 /* ============================================================
    DESKTOP  ≥ 1024px
-   Sidebar muncul di kiri, phone frame di tengah-kanan
    ============================================================ */
 @media (min-width: 1024px) {
   .app-shell {
@@ -79,7 +76,6 @@
     min-height: 100svh;
   }
 
-  /* Sidebar */
   .app-sidebar {
     display: flex;
     flex-direction: column;
@@ -146,6 +142,13 @@
     color: #fff;
   }
 
+  /* Link aktif (halaman yang sedang dibuka) */
+  .sidebar-link--active {
+    background: rgba(255,255,255,0.25);
+    color: #fff;
+    font-weight: 700;
+  }
+
   .sidebar-footer {
     font-size: 10px;
     opacity: 0.5;
@@ -154,7 +157,6 @@
     text-align: center;
   }
 
-  /* Phone frame tetap max 430px */
   .app-main {
     max-width: 430px;
     width: 100%;
@@ -169,7 +171,6 @@
 
 /* ============================================================
    LARGE DESKTOP  ≥ 1280px
-   Sidebar sedikit lebih lebar, padding lebih lega
    ============================================================ */
 @media (min-width: 1280px) {
   .app-shell {
@@ -183,7 +184,7 @@
 }
 
 /* ============================================================
-   Animasi slide-up untuk modal (dipakai di Home.jsx)
+   Animasi slide-up untuk modal
    ============================================================ */
 @keyframes slide-up {
   from { transform: translateY(100%); opacity: 0; }
@@ -195,8 +196,7 @@
 }
 
 /* ============================================================
-   Scrollbar tersembunyi (sudah ada di index.css, ini duplikat
-   aman sebagai fallback)
+   Scrollbar tersembunyi
    ============================================================ */
 .scrollbar-none {
   -ms-overflow-style: none;

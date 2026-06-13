@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Home from './pages/Home';
@@ -11,12 +11,6 @@ import Profile from './pages/Profile';
 function App() {
   return (
     <Router>
-      {/*
-        Responsive container:
-        - Mobile  (<640px)  : full width, no shadow  → tampilan asli seperti semula
-        - Tablet  (640–1023px): max-w-lg centered, with shadow card
-        - Desktop (≥1024px) : two-column layout — sidebar kiri + konten kanan
-      */}
       <div className="app-shell">
         {/* Sidebar hanya tampil di desktop */}
         <aside className="app-sidebar">
@@ -28,15 +22,15 @@ function App() {
             </div>
           </div>
           <nav className="sidebar-nav">
-            <a href="/home"         className="sidebar-link">🏠 Beranda</a>
-            <a href="/order"        className="sidebar-link">🛒 Pesanan</a>
-            <a href="/notification" className="sidebar-link">🔔 Notifikasi</a>
-            <a href="/profile"      className="sidebar-link">👤 Profil</a>
+            <NavLink to="/home"         className={({ isActive }) => 'sidebar-link' + (isActive ? ' sidebar-link--active' : '')}>🏠 Beranda</NavLink>
+            <NavLink to="/order"        className={({ isActive }) => 'sidebar-link' + (isActive ? ' sidebar-link--active' : '')}>🛒 Pesanan</NavLink>
+            <NavLink to="/notification" className={({ isActive }) => 'sidebar-link' + (isActive ? ' sidebar-link--active' : '')}>🔔 Notifikasi</NavLink>
+            <NavLink to="/profile"      className={({ isActive }) => 'sidebar-link' + (isActive ? ' sidebar-link--active' : '')}>👤 Profil</NavLink>
           </nav>
           <p className="sidebar-footer">© 2025 Warung Kuliner 3 Putri</p>
         </aside>
 
-        {/* Konten utama — selalu ada di semua ukuran */}
+        {/* Konten utama */}
         <main className="app-main">
           <div className="app-card">
             <Routes>

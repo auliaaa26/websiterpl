@@ -2,17 +2,15 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, Lock } from 'lucide-react';
 import Swal from 'sweetalert2';
-import { supabase } from '../config/supabase'; // 👈 Pastikan import database Supabase kamu
+import { supabase } from '../config/supabase';
 
 export default function Login() {
   const navigate = useNavigate();
   
-  // 👈 State untuk menangkap data input form
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // 👈 Fungsi Autentikasi Login Nyata ke Supabase
   const handleSignIn = async (e) => {
     e.preventDefault();
     if (!email || !password) {
@@ -35,7 +33,6 @@ export default function Login() {
     setLoading(false);
 
     if (error) {
-      // Jika password salah atau email belum didaftarkan oleh admin
       Swal.fire({
         title: 'Gagal Masuk',
         text: 'Email atau Password salah. Harap hubungi Admin jika Anda belum memiliki akun.',
@@ -43,7 +40,6 @@ export default function Login() {
         confirmButtonColor: '#E87717',
       });
     } else {
-      // Jika berhasil login
       Swal.fire({
         title: 'Berhasil Masuk!',
         text: 'Selamat datang kembali di Warung Kuliner 3 Putri!',
@@ -51,15 +47,13 @@ export default function Login() {
         timer: 1500,
         showConfirmButton: false,
       });
-      
-      // Lempar pelanggan masuk ke dashboard utama menu
       navigate('/home');
     }
   };
 
-
   return (
-    <div className="flex-1 flex flex-col bg-white min-h-screen">
+    // FIX: hapus min-h-screen, cukup flex-1 agar tidak overflow dari app-card
+    <div className="flex-1 flex flex-col bg-white">
       {/* Header Oranye Melengkung Ke Bawah */}
       <div className="bg-brand-orange text-white pt-16 pb-20 px-8 rounded-b-[50px] relative shadow-md text-left">
         <p className="text-lg opacity-90">Hello, Welcome Back!</p>
@@ -67,7 +61,6 @@ export default function Login() {
       </div>
 
       {/* Form Input */}
-      {/* Diubah menggunakan tag <form> agar event submit bekerja dengan menekan enter */}
       <form onSubmit={handleSignIn} className="flex-1 px-6 pt-12 flex flex-col justify-between pb-8">
         <div className="space-y-5">
           <div>
@@ -110,7 +103,6 @@ export default function Login() {
           </button>
         </div>
 
-        {/* Footer OAuth & Informasi Akun */}
         <div className="text-center space-y-4 mt-8">
           <a
             href="https://wa.me/628888385316?text=Halo%20Admin%2C%20saya%20ingin%20mendaftar%20akun%20di%20Warung%20Kuliner%203%20Putri."
