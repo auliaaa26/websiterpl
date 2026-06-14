@@ -6,7 +6,7 @@ import { supabase } from '../config/supabase';
 
 export default function Login() {
   const navigate = useNavigate();
-  
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -52,27 +52,25 @@ export default function Login() {
   };
 
   return (
-    // FIX: hapus min-h-screen, cukup flex-1 agar tidak overflow dari app-card
     <div className="flex-1 flex flex-col bg-white">
-      {/* Header Oranye Melengkung Ke Bawah */}
       <div className="bg-brand-orange text-white pt-16 pb-20 px-8 rounded-b-[50px] relative shadow-md text-left">
         <p className="text-lg opacity-90">Hello, Welcome Back!</p>
         <h2 className="text-4xl font-bold mt-1 text-white">Sign In</h2>
       </div>
 
-      {/* Form Input */}
-      <form onSubmit={handleSignIn} className="flex-1 px-6 pt-12 flex flex-col justify-between pb-8">
+      <form onSubmit={handleSignIn} className="px-6 pt-12 flex flex-col pb-8">
         <div className="space-y-5">
+
           <div>
             <label className="text-sm text-gray-500 block mb-1 text-left">Email Akun</label>
             <div className="flex items-center bg-orange-50 border border-orange-200 rounded-full px-4 py-3">
               <User className="text-brand-orange w-5 h-5 mr-3" />
-              <input 
-                type="email" 
-                placeholder="Masukkan email yang didaftarkan admin" 
+              <input
+                type="email"
+                placeholder="Masukkan email yang didaftarkan admin"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="bg-transparent flex-1 outline-none text-sm text-brand-dark focus:ring-0" 
+                className="bg-transparent flex-1 outline-none text-sm text-brand-dark focus:ring-0"
                 required
               />
             </div>
@@ -82,36 +80,40 @@ export default function Login() {
             <label className="text-sm text-gray-500 block mb-1 text-left">Password</label>
             <div className="flex items-center bg-orange-50 border border-orange-200 rounded-full px-4 py-3">
               <Lock className="text-brand-orange w-5 h-5 mr-3" />
-              <input 
-                type="password" 
-                placeholder="Masukkan password Anda" 
+              <input
+                type="password"
+                placeholder="Masukkan password Anda"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="bg-transparent flex-1 outline-none text-sm text-brand-dark focus:ring-0" 
+                className="bg-transparent flex-1 outline-none text-sm text-brand-dark focus:ring-0"
                 required
               />
             </div>
-            <p className="text-right text-xs text-gray-500 mt-2 cursor-pointer hover:text-brand-orange transition">Forgot Password?</p>
+            <p className="text-right text-xs text-gray-500 mt-2 cursor-pointer hover:text-brand-orange transition">
+              Forgot Password?
+            </p>
           </div>
 
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             disabled={loading}
             className="w-full btn-signin-orange font-semibold py-3 rounded-full shadow-lg mt-4 transition duration-200 text-white bg-brand-orange hover:bg-orange-600 disabled:opacity-50"
           >
             {loading ? 'Memverifikasi...' : 'Sign In'}
           </button>
-        </div>
 
-        <div className="text-center space-y-4 mt-8">
-          <a
-            href="https://wa.me/628888385316?text=Halo%20Admin%2C%20saya%20ingin%20mendaftar%20akun%20di%20Warung%20Kuliner%203%20Putri."
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs text-gray-500 hover:text-brand-orange hover:underline transition"
-          >
-            Belum punya akun? <span className="font-semibold text-brand-orange">Hubungi Admin</span>
-          </a>
+          <div className="text-center mt-2">
+            <a
+              href="https://wa.me/628888385316?text=Halo%20Admin%2C%20saya%20ingin%20mendaftar%20akun%20di%20Warung%20Kuliner%203%20Putri."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-gray-500 hover:text-brand-orange hover:underline transition"
+            >
+              Belum punya akun?{' '}
+              <span className="font-semibold text-brand-orange">Hubungi Admin</span>
+            </a>
+          </div>
+
         </div>
       </form>
     </div>
