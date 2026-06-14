@@ -53,13 +53,15 @@ export default function Login() {
 
   return (
     <div className="flex-1 flex flex-col bg-white">
-      <div className="bg-brand-orange text-white pt-16 pb-20 px-8 rounded-b-[50px] relative shadow-md text-left">
+      {/* Header dikurangi pt dan pb */}
+      <div className="bg-brand-orange text-white pt-10 pb-10 px-8 rounded-b-[50px] shadow-md text-left">
         <p className="text-lg opacity-90">Hello, Welcome Back!</p>
         <h2 className="text-4xl font-bold mt-1 text-white">Sign In</h2>
       </div>
 
-      <form onSubmit={handleSignIn} className="px-6 pt-12 flex flex-col pb-8">
-        <div className="space-y-5">
+      {/* Form dikurangi pt */}
+      <form onSubmit={handleSignIn} className="px-6 pt-6 flex flex-col pb-6">
+        <div className="space-y-4">
 
           <div>
             <label className="text-sm text-gray-500 block mb-1 text-left">Email Akun</label>
@@ -89,7 +91,7 @@ export default function Login() {
                 required
               />
             </div>
-            <p className="text-right text-xs text-gray-500 mt-2 cursor-pointer hover:text-brand-orange transition">
+            <p className="text-right text-xs text-gray-500 mt-1 cursor-pointer hover:text-brand-orange transition">
               Forgot Password?
             </p>
           </div>
@@ -97,12 +99,12 @@ export default function Login() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full btn-signin-orange font-semibold py-3 rounded-full shadow-lg mt-4 transition duration-200 text-white bg-brand-orange hover:bg-orange-600 disabled:opacity-50"
+            className="w-full btn-signin-orange font-semibold py-3 rounded-full shadow-lg transition duration-200 text-white bg-brand-orange hover:bg-orange-600 disabled:opacity-50"
           >
             {loading ? 'Memverifikasi...' : 'Sign In'}
           </button>
 
-          <div className="text-center mt-2">
+          <div className="text-center">
             <a
               href="https://wa.me/628888385316?text=Halo%20Admin%2C%20saya%20ingin%20mendaftar%20akun%20di%20Warung%20Kuliner%203%20Putri."
               target="_blank"
