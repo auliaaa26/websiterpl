@@ -185,7 +185,7 @@ export default function Dashboard() {
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="var(--gray-100)" />
-                <XAxis dataKey="day" tick={{ fontSize: 11 }} />
+                <XAxis dataKey="day" tick={{ fontSize: 25 }} />
                 <YAxis tick={{ fontSize: 11 }} tickFormatter={(v) => v === 0 ? '0' : v >= 1000 ? (v/1000).toFixed(0) + 'k' : v} />
                 <Tooltip formatter={(v) => ['Rp.' + Number(v).toLocaleString('id-ID'), 'Pendapatan']} labelFormatter={(l) => `Tanggal ${l}`} />
                 <Area

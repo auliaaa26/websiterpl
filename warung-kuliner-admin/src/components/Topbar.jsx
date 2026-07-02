@@ -34,13 +34,11 @@ export default function Topbar({ title, onMenuClick }) {
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
         <button 
           onClick={onMenuClick} 
-          style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--gray-700)' }}
+          className="menu-button"
         >
           <Menu size={22} />
         </button>
-        <h1 style={{ fontSize: 18, fontWeight: 700, color: 'var(--gray-800)', margin: 0 }}>
-          {title}
-        </h1>
+        <h1 className="header-title">{title}</h1>
       </div>
       
       <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>

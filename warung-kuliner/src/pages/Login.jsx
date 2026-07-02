@@ -91,9 +91,7 @@ export default function Login() {
                 required
               />
             </div>
-            <p className="text-right text-xs text-gray-500 mt-1 cursor-pointer hover:text-brand-orange transition">
-              Forgot Password?
-            </p>
+            
           </div>
 
           <button

@@ -1,11 +1,33 @@
 import React, { useEffect, useState } from 'react'
 import { supabase } from '../config/supabase'
-import { Check, Printer } from 'lucide-react'
+import { Check, Printer, Eye } from 'lucide-react'
+
+// Modal lihat bukti bayar (reuse pattern dari Orders.jsx)
+function BuktiBayarModal({ url, onClose }) {
+  if (!url) return null
+  return (
+    <div onClick={onClose} style={{
+      position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999
+    }}>
+      <div onClick={e => e.stopPropagation()} style={{
+        background: 'white', borderRadius: 16, padding: 20, maxWidth: 420, width: '90%'
+      }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+          <span style={{ fontWeight: 700 }}>Bukti Pembayaran Tempo</span>
+          <button onClick={onClose} style={{ border: 'none', background: 'none', cursor: 'pointer', fontSize: 18 }}>✕</button>
+        </div>
+        <img src={url} alt="Bukti Bayar" style={{ width: '100%', borderRadius: 10, objectFit: 'contain', maxHeight: 500 }} />
+      </div>
+    </div>
+  )
+}
 
 export default function PembayaranTempo() {
   const [tempos, setTempos] = useState([])
   const [loading, setLoading] = useState(true)
   const [filterStatus, setFilterStatus] = useState('Semua')
+  const [buktiBayarUrl, setBuktiBayarUrl] = useState(null)
 
   useEffect(() => {
     fetchTempoData()
@@ -29,7 +51,10 @@ export default function PembayaranTempo() {
 
   const markAsLunas = async (id) => {
     if (window.confirm('Konfirmasi pelunasan tagihan ini?')) {
-      await supabase.from('pembayaran_tempo').update({ status: 'Lunas' }).eq('id', id)
+      await supabase
+        .from('pembayaran_tempo')
+        .update({ status: 'Lunas', tanggal_lunas: new Date().toISOString() })
+        .eq('id', id)
       fetchTempoData()
     }
   }
@@ -55,8 +80,23 @@ export default function PembayaranTempo() {
     return <span style={{ color: hari <= 3 ? '#D97706' : '#374151' }}>{hari} hari lagi</span>
   }
 
+  // Hitung ringkasan notifikasi
+  const jumlahBuktiBaru = tempos.filter(t => t.status === 'Belum Lunas' && t.bukti_bayar).length
+
   return (
     <div style={{ background: 'white', padding: 24, borderRadius: 16, boxShadow: 'var(--shadow-sm)' }}>
+      <BuktiBayarModal url={buktiBayarUrl} onClose={() => setBuktiBayarUrl(null)} />
+
+      {/* Notifikasi kalau ada pelanggan yang sudah upload bukti tapi belum dikonfirmasi */}
+      {filterStatus === 'Semua' && jumlahBuktiBaru > 0 && (
+        <div style={{
+          background: '#F3E8FF', color: '#7C3AED', borderRadius: 10,
+          padding: '10px 16px', marginBottom: 16, fontSize: 13, fontWeight: 600,
+          display: 'flex', alignItems: 'center', gap: 8
+        }}>
+          📋 {jumlahBuktiBaru} pelanggan sudah upload bukti bayar tempo — perlu dikonfirmasi
+        </div>
+      )}
 
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 20, flexWrap: 'wrap', gap: 12 }}>
         <select
@@ -86,17 +126,26 @@ export default function PembayaranTempo() {
             <th style={{ padding: 12 }}>Tanggal Order</th>
             <th style={{ padding: 12 }}>Jatuh Tempo</th>
             <th style={{ padding: 12 }}>Sisa Waktu</th>
+            <th style={{ padding: 12 }}>Bukti Bayar</th>
+            <th style={{ padding: 12 }}>Tgl Lunas</th>
             <th style={{ padding: 12 }}>Status</th>
             <th style={{ padding: 12 }}>Aksi</th>
           </tr>
         </thead>
         <tbody>
           {loading ? (
-            <tr><td colSpan="8" style={{ textAlign: 'center', padding: 20 }}>Memuat...</td></tr>
+            <tr><td colSpan="10" style={{ textAlign: 'center', padding: 20 }}>Memuat...</td></tr>
           ) : tempos.length === 0 ? (
-            <tr><td colSpan="8" style={{ textAlign: 'center', padding: 20, color: 'var(--gray-400)' }}>Belum ada tagihan tempo.</td></tr>
+            <tr><td colSpan="10" style={{ textAlign: 'center', padding: 20, color: 'var(--gray-400)' }}>Belum ada tagihan tempo.</td></tr>
           ) : tempos.map((t) => (
-            <tr key={t.id} style={{ borderBottom: '1px solid var(--gray-100)' }}>
+            <tr
+              key={t.id}
+              style={{
+                borderBottom: '1px solid var(--gray-100)',
+                // Highlight baris yang sudah ada bukti tapi belum lunas
+                background: (t.bukti_bayar && t.status !== 'Lunas') ? '#FAF5FF' : 'white',
+              }}
+            >
               <td style={{ padding: 12, fontWeight: 700 }}>
                 {t.nama_pelanggan}
                 <br />
@@ -115,6 +164,33 @@ export default function PembayaranTempo() {
               <td style={{ padding: 12, fontSize: 12 }}>
                 {getSisaHari(t.jatuh_tempo, t.status)}
               </td>
+
+              {/* Kolom Bukti Bayar — tampil tombol Lihat kalau pelanggan sudah upload */}
+              <td style={{ padding: 12 }}>
+                {t.bukti_bayar ? (
+                  <button
+                    onClick={() => setBuktiBayarUrl(t.bukti_bayar)}
+                    style={{
+                      border: 'none', background: '#EDE9FE', color: '#7C3AED',
+                      padding: '4px 10px', borderRadius: 6, cursor: 'pointer',
+                      display: 'flex', alignItems: 'center', gap: 4,
+                      fontSize: 12, fontWeight: 600
+                    }}
+                  >
+                    <Eye size={13} /> Lihat
+                  </button>
+                ) : (
+                  <span style={{ fontSize: 11, color: 'var(--gray-400)' }}>Belum ada</span>
+                )}
+              </td>
+
+              {/* Kolom Tanggal Lunas */}
+              <td style={{ padding: 12, fontSize: 12, color: t.tanggal_lunas ? '#059669' : 'var(--gray-400)' }}>
+                {t.tanggal_lunas
+                  ? new Date(t.tanggal_lunas).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })
+                  : '—'}
+              </td>
+
               <td style={{ padding: 12 }}>
                 <span style={{ padding: '4px 8px', borderRadius: 6, fontSize: 11, fontWeight: 700, ...getStatusStyle(t.status, t.jatuh_tempo) }}>
                   {getStatusLabel(t.status, t.jatuh_tempo)}

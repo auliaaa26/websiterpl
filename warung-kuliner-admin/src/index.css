@@ -21,6 +21,7 @@ body {
   margin: 0;
   font-family: 'Inter', sans-serif;
   background-color: var(--gray-50);
+  font-size: 16px; /* increased base font size */
 }
 
 /* Form Styling utility */
@@ -39,4 +40,20 @@ body {
   border: 1.5px solid var(--gray-200);
   border-radius: 8px;
   background: white;
+}
+
+/* Menu button styling */
+.menu-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--gray-700);
+}
+
+/* Header title styling */
+.header-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--gray-800);
+  margin: 0;
 }
