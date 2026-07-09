@@ -16,16 +16,16 @@ export default function Login() {
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', background: 'var(--gray-50)' }}>
-      <form onSubmit={handleLogin} style={{ background: 'white', padding: 32, borderRadius: 12, boxShadow: 'var(--shadow-lg)', width: 320 }}>
-        <h2 style={{ textAlign: 'center', marginBottom: 24, color: 'var(--gray-800)' }}>Login Admin</h2>
+      <form onSubmit={handleLogin} style={{ background: 'white', padding: 32, borderRadius: 12, boxShadow: 'var(--shadow-lg)', width: 340 }}>
+        <h2 style={{ textAlign: 'center', marginBottom: 24, color: 'var(--gray-800)', fontSize: 24 }}>Login Admin</h2>
         <input 
           type="password" 
           placeholder="Masukkan Password" 
           value={password} 
           onChange={(e) => setPassword(e.target.value)}
-          style={{ width: '100%', padding: '10px', marginBottom: 16, borderRadius: 6, border: '1px solid var(--gray-300)' }}
+          style={{ width: '100%', padding: '12px', marginBottom: 16, borderRadius: 6, border: '1px solid var(--gray-300)', fontSize: 15, boxSizing: 'border-box' }}
         />
-        <button type="submit" style={{ width: '100%', padding: '10px', background: 'var(--orange)', color: 'white', border: 'none', borderRadius: 6, fontWeight: 'bold', cursor: 'pointer' }}>
+        <button type="submit" style={{ width: '100%', padding: '12px', background: 'var(--orange)', color: 'white', border: 'none', borderRadius: 6, fontWeight: 'bold', fontSize: 15, cursor: 'pointer' }}>
           Masuk
         </button>
       </form>

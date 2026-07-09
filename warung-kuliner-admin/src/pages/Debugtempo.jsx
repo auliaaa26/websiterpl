@@ -197,7 +197,7 @@ export default function DebugTempo() {
   }
 
   return (
-    <div style={{ padding: 24, maxWidth: 800, margin: '0 auto', fontFamily: 'monospace', fontSize: 13 }}>
+    <div style={{ padding: 24, maxWidth: 800, margin: '0 auto', fontFamily: 'monospace', fontSize: 15 }}>
       <div style={{ background: '#FEF3C7', border: '1px solid #F59E0B', borderRadius: 10, padding: '10px 16px', marginBottom: 20 }}>
         <strong>⚠️ Halaman Debug Sementara</strong> — Hapus setelah masalah teratasi
       </div>
@@ -220,7 +220,7 @@ export default function DebugTempo() {
               background: btn.bg, color: btn.color,
               border: `1px solid ${btn.color}30`,
               padding: '8px 16px', borderRadius: 8,
-              fontWeight: 700, fontSize: 12, cursor: 'pointer',
+              fontWeight: 700, fontSize: 14, cursor: 'pointer',
               opacity: loading ? 0.5 : 1,
             }}
           >
@@ -247,7 +247,7 @@ export default function DebugTempo() {
             {l.data && (
               <pre style={{
                 marginTop: 4, marginLeft: 16,
-                color: '#9CA3AF', fontSize: 11,
+                color: '#9CA3AF', fontSize: 14,
                 whiteSpace: 'pre-wrap', wordBreak: 'break-all'
               }}>
                 {JSON.stringify(l.data, null, 2)}
@@ -260,7 +260,7 @@ export default function DebugTempo() {
 
       {/* Solusi umum */}
       <div style={{ marginTop: 24, background: 'white', borderRadius: 12, padding: 16, border: '1px solid #E5E7EB' }}>
-        <h3 style={{ marginBottom: 12, fontFamily: 'sans-serif', fontSize: 14 }}>Kemungkinan Solusi</h3>
+        <h3 style={{ marginBottom: 12, fontFamily: 'sans-serif', fontSize: 15 }}>Kemungkinan Solusi</h3>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           {[
             {
@@ -283,7 +283,7 @@ export default function DebugTempo() {
               <p style={{ color: s.color, fontWeight: 700, margin: '0 0 4px', fontFamily: 'sans-serif' }}>
                 {i + 1}. {s.title}
               </p>
-              <p style={{ color: '#374151', margin: 0, fontFamily: 'sans-serif', fontSize: 12 }}>{s.desc}</p>
+              <p style={{ color: '#374151', margin: 0, fontFamily: 'sans-serif', fontSize: 14 }}>{s.desc}</p>
             </div>
           ))}
         </div>

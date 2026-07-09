@@ -7,9 +7,9 @@ function StatCard({ label, value, sub, subColor, icon, iconBg }) {
   return (
     <div className="card" style={{ padding: '20px', display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
       <div>
-        <div style={{ fontSize: 12, color: 'var(--gray-500)', fontWeight: 600, marginBottom: 8 }}>{label}</div>
+        <div style={{ fontSize: 14, color: 'var(--gray-500)', fontWeight: 600, marginBottom: 8 }}>{label}</div>
         <div style={{ fontSize: 24, fontWeight: 800, color: 'var(--gray-900)', marginBottom: 6 }}>{value}</div>
-        {sub && <div style={{ fontSize: 12, color: subColor || 'var(--gray-500)', fontWeight: 500 }}>{sub}</div>}
+        {sub && <div style={{ fontSize: 14, color: subColor || 'var(--gray-500)', fontWeight: 500 }}>{sub}</div>}
       </div>
       <div style={{ width: 44, height: 44, background: iconBg, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
         {icon}
@@ -162,14 +162,14 @@ export default function Dashboard() {
           <div style={{ background: 'white', borderRadius: 14, padding: '20px' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
               <div>
-                <span style={{ fontWeight: 700, fontSize: 15 }}>Detail Penjualan</span>
-                <span style={{ fontSize: 11, color: 'var(--gray-400)', marginLeft: 8 }}>
+                <span style={{ fontWeight: 700, fontSize: 16 }}>Detail Penjualan</span>
+                <span style={{ fontSize: 14, color: 'var(--gray-400)', marginLeft: 8 }}>
                   (semua pesanan kecuali dibatalkan)
                 </span>
               </div>
               <select
                 className="form-select"
-                style={{ width: 'auto', fontSize: 12, padding: '5px 28px 5px 10px' }}
+                style={{ width: 'auto', fontSize: 14, padding: '5px 28px 5px 10px' }}
                 value={selectedMonth}
                 onChange={e => setSelectedMonth(Number(e.target.value))}
               >
@@ -185,8 +185,8 @@ export default function Dashboard() {
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="var(--gray-100)" />
-                <XAxis dataKey="day" tick={{ fontSize: 25 }} />
-                <YAxis tick={{ fontSize: 11 }} tickFormatter={(v) => v === 0 ? '0' : v >= 1000 ? (v/1000).toFixed(0) + 'k' : v} />
+                <XAxis dataKey="day" tick={{ fontSize: 12 }} />
+                <YAxis tick={{ fontSize: 14 }} tickFormatter={(v) => v === 0 ? '0' : v >= 1000 ? (v/1000).toFixed(0) + 'k' : v} />
                 <Tooltip formatter={(v) => ['Rp.' + Number(v).toLocaleString('id-ID'), 'Pendapatan']} labelFormatter={(l) => `Tanggal ${l}`} />
                 <Area
                   type="monotone"

@@ -14,7 +14,7 @@ function BuktiBayarModal({ url, onClose }) {
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
           <span style={{ fontWeight: 700 }}>Bukti Pembayaran</span>
-          <button onClick={onClose} style={{ border: 'none', background: 'none', cursor: 'pointer', fontSize: 18 }}>✕</button>
+          <button onClick={onClose} style={{ border: 'none', background: 'none', cursor: 'pointer', fontSize: 20 }}>✕</button>
         </div>
         <img src={url} alt="Bukti Bayar" style={{ width: '100%', borderRadius: 10, objectFit: 'contain', maxHeight: 500 }} />
       </div>
@@ -67,8 +67,8 @@ function StatusDropdown({ currentStatus, onUpdate }) {
         ...style,
         border: 'none',
         borderRadius: 6,
-        padding: '4px 8px',
-        fontSize: 11,
+        padding: '5px 10px',
+        fontSize: 14,
         fontWeight: 700,
         cursor: options.length > 1 ? 'pointer' : 'default',
         appearance: options.length > 1 ? 'auto' : 'none',
@@ -93,18 +93,18 @@ function KonfirmasiButton({ onConfirm, onBatal }) {
           display: 'flex', alignItems: 'center', gap: 4,
           background: '#D1FAE5', color: '#065F46',
           border: 'none', borderRadius: 6,
-          padding: '5px 10px', fontSize: 11, fontWeight: 700,
+          padding: '7px 14px', fontSize: 14, fontWeight: 700,
           cursor: 'pointer', whiteSpace: 'nowrap',
         }}
       >
-        <CheckCircle size={12} /> Konfirmasi
+        <CheckCircle size={14} /> Konfirmasi
       </button>
       <button
         onClick={onBatal}
         style={{
           background: '#FEE2E2', color: '#DC2626',
           border: 'none', borderRadius: 6,
-          padding: '5px 10px', fontSize: 11, fontWeight: 700,
+          padding: '7px 14px', fontSize: 14, fontWeight: 700,
           cursor: 'pointer', whiteSpace: 'nowrap',
         }}
       >
@@ -160,7 +160,7 @@ export default function Orders() {
       {filterStatus === 'Semua' && jumlahMenunggu > 0 && (
         <div style={{
           background: '#DBEAFE', color: '#1D4ED8', borderRadius: 10,
-          padding: '10px 16px', marginBottom: 16, fontSize: 13, fontWeight: 600,
+          padding: '10px 16px', marginBottom: 16, fontSize: 14, fontWeight: 600,
           display: 'flex', alignItems: 'center', gap: 8
         }}>
           🔔 {jumlahMenunggu} pesanan menunggu konfirmasi bukti bayar
@@ -191,23 +191,23 @@ export default function Orders() {
         </button>
       </div>
 
-      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 16, fontWeight: 600 }}>
         <thead>
           <tr style={{ background: 'var(--gray-50)', borderBottom: '2px solid var(--gray-200)', textAlign: 'left' }}>
-            <th style={{ padding: 12 }}>No Meja / Kamar</th>
-            <th style={{ padding: 12 }}>Nama Pelanggan</th>
-            <th style={{ padding: 12 }}>Detail Pesanan</th>
-            <th style={{ padding: 12 }}>Total Harga</th>
-            <th style={{ padding: 12 }}>Pembayaran</th>
-            <th style={{ padding: 12 }}>Bukti Bayar</th>
-            <th style={{ padding: 12 }}>Aksi</th>
+            <th style={{ padding: 12, fontSize: 15, fontWeight: 700 }}>No Meja / Kamar</th>
+            <th style={{ padding: 12, fontSize: 15, fontWeight: 700 }}>Nama Pelanggan</th>
+            <th style={{ padding: 12, fontSize: 15, fontWeight: 700 }}>Detail Pesanan</th>
+            <th style={{ padding: 12, fontSize: 15, fontWeight: 700 }}>Total Harga</th>
+            <th style={{ padding: 12, fontSize: 15, fontWeight: 700 }}>Pembayaran</th>
+            <th style={{ padding: 12, fontSize: 15, fontWeight: 700 }}>Bukti Bayar</th>
+            <th style={{ padding: 12, fontSize: 15, fontWeight: 700 }}>Aksi</th>
           </tr>
         </thead>
         <tbody>
           {loading ? (
-            <tr><td colSpan="7" style={{ textAlign: 'center', padding: 16 }}>Memuat data...</td></tr>
+            <tr><td colSpan="7" style={{ textAlign: 'center', padding: 16, fontSize: 16, fontWeight: 600 }}>Memuat data...</td></tr>
           ) : orders.length === 0 ? (
-            <tr><td colSpan="7" style={{ textAlign: 'center', padding: 16, color: 'var(--gray-400)' }}>Belum ada pesanan masuk.</td></tr>
+            <tr><td colSpan="7" style={{ textAlign: 'center', padding: 16, fontSize: 16, fontWeight: 600, color: 'var(--gray-400)' }}>Belum ada pesanan masuk.</td></tr>
           ) : orders.map(o => (
             <tr
               key={o.id_pesanan}
@@ -216,15 +216,15 @@ export default function Orders() {
                 background: o.status === 'menunggu_konfirmasi' ? '#F0F7FF' : 'white'
               }}
             >
-              <td style={{ padding: 12, fontWeight: 700 }}>
+              <td style={{ padding: 12, fontWeight: 700, fontSize: 17 }}>
                 {o.no_meja || '-'}<br />
-                <span style={{ fontSize: 11, color: 'var(--gray-400)' }}>{o.kamar || 'Kamar -'}</span>
+                <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--gray-400)' }}>{o.kamar || 'Kamar -'}</span>
               </td>
-              <td style={{ padding: 12 }}>{o.nama_pelanggan || 'Pelanggan'}</td>
-              <td style={{ padding: 12 }}>
-                {o.detail_pesanan || '-'} <span style={{ color: 'var(--gray-500)' }}>x{o.jumlah || 1}</span>
+              <td style={{ padding: 12, fontWeight: 700, fontSize: 17 }}>{o.nama_pelanggan || 'Pelanggan'}</td>
+              <td style={{ padding: 12, fontWeight: 600, fontSize: 15 }}>
+                {o.detail_pesanan || '-'} <span style={{ color: 'var(--gray-500)', fontWeight: 700 }}>x{o.jumlah || 1}</span>
               </td>
-              <td style={{ padding: 12, fontWeight: 600 }}>
+              <td style={{ padding: 12, fontWeight: 800, fontSize: 17 }}>
                 Rp.{Number(o.total_harga)?.toLocaleString('id-ID')}
               </td>
 
@@ -233,14 +233,14 @@ export default function Orders() {
                 {o.metode_bayar === 'tempo' || o.status === 'tempo' ? (
                   <span style={{
                     background: '#F3E8FF', color: '#7C3AED',
-                    fontSize: 11, fontWeight: 700,
-                    padding: '3px 10px', borderRadius: 999,
+                    fontSize: 13, fontWeight: 700,
+                    padding: '5px 14px', borderRadius: 999,
                     display: 'inline-block',
                   }}>
                     📋 Tempo
                   </span>
                 ) : (
-                  <span style={{ fontSize: 11, color: 'var(--gray-400)' }}>—</span>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--gray-400)' }}>—</span>
                 )}
               </td>
 
@@ -250,14 +250,14 @@ export default function Orders() {
                     onClick={() => setBuktiBayarUrl(o.bukti_bayar)}
                     style={{
                       border: 'none', background: '#DBEAFE', color: '#1D4ED8',
-                      padding: '4px 10px', borderRadius: 6, cursor: 'pointer',
-                      display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, fontWeight: 600
+                      padding: '5px 12px', borderRadius: 6, cursor: 'pointer',
+                      display: 'flex', alignItems: 'center', gap: 4, fontSize: 13, fontWeight: 700
                     }}
                   >
                     <Eye size={13} /> Lihat
                   </button>
                 ) : (
-                  <span style={{ fontSize: 11, color: 'var(--gray-400)' }}>Tidak ada</span>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--gray-400)' }}>Tidak ada</span>
                 )}
               </td>
 

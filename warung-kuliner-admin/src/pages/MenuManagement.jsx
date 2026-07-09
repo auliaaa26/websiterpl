@@ -128,7 +128,7 @@ export default function MenuManagement() {
             {isEditing ? '✏️ Edit Menu' : 'Tambah Menu Baru'}
           </h3>
           {isEditing && (
-            <button onClick={handleCancelEdit} style={{ border: 'none', background: '#f3f4f6', borderRadius: 8, padding: '4px 10px', cursor: 'pointer', fontSize: 12, color: '#6b7280', display: 'flex', alignItems: 'center', gap: 4 }}>
+            <button onClick={handleCancelEdit} style={{ border: 'none', background: '#f3f4f6', borderRadius: 8, padding: '4px 10px', cursor: 'pointer', fontSize: 14, color: '#6b7280', display: 'flex', alignItems: 'center', gap: 4 }}>
               <X size={13} /> Batal
             </button>
           )}
@@ -136,25 +136,25 @@ export default function MenuManagement() {
 
         {/* Banner nama menu yang sedang diedit */}
         {isEditing && (
-          <div style={{ background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 8, padding: '8px 12px', marginBottom: 12, fontSize: 12, color: '#9a3412' }}>
+          <div style={{ background: '#fff7ed', border: '1px solid #fed7aa', borderRadius: 8, padding: '8px 12px', marginBottom: 12, fontSize: 14, color: '#9a3412' }}>
             Sedang mengedit: <strong>{formInput.nama}</strong>
           </div>
         )}
 
         <form onSubmit={isEditing ? handleUpdateMenu : handleAddMenu} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <div>
-            <label style={{ display: 'block', fontSize: 12, marginBottom: 4, fontWeight: 600 }}>Nama Menu</label>
-            <input type="text" name="nama" value={formInput.nama} onChange={handleInputChange} placeholder="Contoh: Ayam Bakar" style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid #d1d5db', fontSize: 13, boxSizing: 'border-box' }} required />
+            <label style={{ display: 'block', fontSize: 14, marginBottom: 4, fontWeight: 600 }}>Nama Menu</label>
+            <input type="text" name="nama" value={formInput.nama} onChange={handleInputChange} placeholder="Contoh: Ayam Bakar" style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid #d1d5db', fontSize: 15, boxSizing: 'border-box' }} required />
           </div>
 
           <div>
-            <label style={{ display: 'block', fontSize: 12, marginBottom: 4, fontWeight: 600 }}>Harga (Rp)</label>
-            <input type="number" name="harga" value={formInput.harga} onChange={handleInputChange} placeholder="Contoh: 17000" style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid #d1d5db', fontSize: 13, boxSizing: 'border-box' }} required />
+            <label style={{ display: 'block', fontSize: 14, marginBottom: 4, fontWeight: 600 }}>Harga (Rp)</label>
+            <input type="number" name="harga" value={formInput.harga} onChange={handleInputChange} placeholder="Contoh: 17000" style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid #d1d5db', fontSize: 15, boxSizing: 'border-box' }} required />
           </div>
 
           <div>
-            <label style={{ display: 'block', fontSize: 12, marginBottom: 4, fontWeight: 600 }}>Kategori</label>
-            <select name="kategori" value={formInput.kategori} onChange={handleInputChange} style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid #d1d5db', fontSize: 13, background: 'white', boxSizing: 'border-box' }}>
+            <label style={{ display: 'block', fontSize: 14, marginBottom: 4, fontWeight: 600 }}>Kategori</label>
+            <select name="kategori" value={formInput.kategori} onChange={handleInputChange} style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid #d1d5db', fontSize: 15, background: 'white', boxSizing: 'border-box' }}>
               <option value="paket">Paket</option>
               <option value="ayam">Ayam</option>
               <option value="bebek">Bebek</option>
@@ -166,23 +166,23 @@ export default function MenuManagement() {
           </div>
 
           <div>
-            <label style={{ display: 'block', fontSize: 12, marginBottom: 4, fontWeight: 600 }}>Foto Menu</label>
-            <input type="file" accept="image/*" onChange={handleFileUpload} disabled={uploading} style={{ fontSize: 12, width: '100%' }} />
-            {uploading && <p style={{ fontSize: 11, color: 'orange', marginTop: 4 }}>Sedang mengunggah foto...</p>}
+            <label style={{ display: 'block', fontSize: 14, marginBottom: 4, fontWeight: 600 }}>Foto Menu</label>
+            <input type="file" accept="image/*" onChange={handleFileUpload} disabled={uploading} style={{ fontSize: 14, width: '100%' }} />
+            {uploading && <p style={{ fontSize: 14, color: 'orange', marginTop: 4 }}>Sedang mengunggah foto...</p>}
             {formInput.foto && (
               <div style={{ marginTop: 8 }}>
-                <p style={{ fontSize: 11, color: '#6b7280', marginBottom: 2 }}>Pratinjau:</p>
+                <p style={{ fontSize: 14, color: '#6b7280', marginBottom: 2 }}>Pratinjau:</p>
                 <img src={formInput.foto} alt="Preview" style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '8px', border: '1px solid #e5e7eb' }} />
               </div>
             )}
           </div>
 
           <div>
-            <label style={{ display: 'block', fontSize: 12, marginBottom: 4, fontWeight: 600 }}>Deskripsi Tambahan</label>
-            <textarea name="deskripsi" value={formInput.deskripsi} onChange={handleInputChange} placeholder="Contoh: Sambal bawang pedas nampol..." rows="2" style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid #d1d5db', fontSize: 13, resize: 'none', fontFamily: 'inherit', boxSizing: 'border-box' }} />
+            <label style={{ display: 'block', fontSize: 14, marginBottom: 4, fontWeight: 600 }}>Deskripsi Tambahan</label>
+            <textarea name="deskripsi" value={formInput.deskripsi} onChange={handleInputChange} placeholder="Contoh: Sambal bawang pedas nampol..." rows="2" style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid #d1d5db', fontSize: 15, resize: 'none', fontFamily: 'inherit', boxSizing: 'border-box' }} />
           </div>
 
-          <button type="submit" disabled={uploading} style={{ padding: '10px', borderRadius: 8, border: 'none', background: uploading ? '#d1d5db' : isEditing ? '#f97316' : 'orange', color: 'white', fontWeight: 'bold', cursor: uploading ? 'not-allowed' : 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 6, marginTop: 8, fontSize: 13 }}>
+          <button type="submit" disabled={uploading} style={{ padding: '10px', borderRadius: 8, border: 'none', background: uploading ? '#d1d5db' : isEditing ? '#f97316' : 'orange', color: 'white', fontWeight: 'bold', cursor: uploading ? 'not-allowed' : 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 6, marginTop: 8, fontSize: 15 }}>
             {isEditing ? <><Check size={16} /> Simpan Perubahan</> : <><Plus size={16} /> Simpan Menu</>}
           </button>
         </form>
@@ -194,7 +194,7 @@ export default function MenuManagement() {
           <h3 style={{ fontWeight: 'bold', color: '#1f2937', margin: 0 }}>Daftar Menu Warung</h3>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <SlidersHorizontal size={14} style={{ color: '#6b7280' }} />
-            <select value={filterKategori} onChange={e => setFilterKategori(e.target.value)} style={{ padding: '6px 12px', borderRadius: 8, border: '1px solid #d1d5db', fontSize: 12, background: 'white' }}>
+            <select value={filterKategori} onChange={e => setFilterKategori(e.target.value)} style={{ padding: '6px 12px', borderRadius: 8, border: '1px solid #d1d5db', fontSize: 14, background: 'white' }}>
               <option>Semua</option>
               <option>Paket</option>
               <option>Ayam</option>
@@ -207,7 +207,7 @@ export default function MenuManagement() {
           </div>
         </div>
 
-        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 15 }}>
           <thead>
             <tr style={{ background: '#f9fafb', borderBottom: '2px solid #e5e7eb', textAlign: 'left' }}>
               <th style={{ padding: 12, width: '60px' }}>Foto</th>
@@ -235,7 +235,7 @@ export default function MenuManagement() {
                 </td>
                 <td style={{ padding: 12, fontWeight: 600, color: '#1f2937' }}>
                   <div>{item.nama}</div>
-                  {item.deskripsi && <div style={{ fontSize: 11, color: '#6b7280', fontWeight: 400, marginTop: 2 }}>{item.deskripsi}</div>}
+                  {item.deskripsi && <div style={{ fontSize: 14, color: '#6b7280', fontWeight: 400, marginTop: 2 }}>{item.deskripsi}</div>}
                 </td>
                 <td style={{ padding: 12, textTransform: 'capitalize', color: '#4b5563' }}>{item.kategori}</td>
                 <td style={{ padding: 12, fontWeight: 600, color: '#1f2937' }}>Rp {Number(item.harga).toLocaleString('id-ID')}</td>

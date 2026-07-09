@@ -180,11 +180,11 @@ console.log('Anon Key ada?:', !!import.meta.env.VITE_SUPABASE_ANON_KEY)
       {/* 📋 SEKSI FORM INPUT / EDIT (SEBELAH KIRI) */}
       <div style={{ background: 'white', padding: 20, borderRadius: 16, boxShadow: 'var(--shadow-sm)' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-          <h3 style={{ fontWeight: 'bold', color: 'var(--gray-800)', fontSize: 16 }}>
+          <h3 style={{ fontWeight: 'bold', color: 'var(--gray-800)', fontSize: 17 }}>
             {isEditing ? '⚡ Edit Data Pelanggan' : 'Tambah Pelanggan & Akun'}
           </h3>
           {isEditing && (
-            <button onClick={cancelEdit} style={{ background: '#F3F4F6', border: 'none', padding: '4px 8px', borderRadius: 6, fontSize: 11, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 2, color: 'var(--gray-600)' }}>
+            <button onClick={cancelEdit} style={{ background: '#F3F4F6', border: 'none', padding: '4px 8px', borderRadius: 6, fontSize: 14, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 2, color: 'var(--gray-600)' }}>
               <X size={12}/> Batal
             </button>
           )}
@@ -192,42 +192,42 @@ console.log('Anon Key ada?:', !!import.meta.env.VITE_SUPABASE_ANON_KEY)
 
         <form onSubmit={handleSavePelanggan} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <div>
-            <label style={{ display: 'block', fontSize: 12, marginBottom: 4, fontWeight: 600 }}>Nama Pelanggan</label>
-            <input type="text" name="nama" value={formInput.nama} onChange={handleInputChange} placeholder="Contoh: Aulia Rachmah" style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid var(--gray-300)', fontSize: 13 }} required />
+            <label style={{ display: 'block', fontSize: 14, marginBottom: 4, fontWeight: 600 }}>Nama Pelanggan</label>
+            <input type="text" name="nama" value={formInput.nama} onChange={handleInputChange} placeholder="Contoh: Aulia Rachmah" style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid var(--gray-300)', fontSize: 15 }} required />
           </div>
 
           <div>
-            <label style={{ display: 'block', fontSize: 12, marginBottom: 4, fontWeight: 600 }}>Nomor Kamar</label>
-            <input type="text" name="kamar" value={formInput.kamar} onChange={handleInputChange} placeholder="Contoh: A-12" style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid var(--gray-300)', fontSize: 13 }} required />
+            <label style={{ display: 'block', fontSize: 14, marginBottom: 4, fontWeight: 600 }}>Nomor Kamar</label>
+            <input type="text" name="kamar" value={formInput.kamar} onChange={handleInputChange} placeholder="Contoh: A-12" style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid var(--gray-300)', fontSize: 15 }} required />
           </div>
 
           <div>
-            <label style={{ display: 'block', fontSize: 12, marginBottom: 4, fontWeight: 600 }}>No. Telepon</label>
-            <input type="text" name="no_tlpn" value={formInput.no_tlpn} onChange={handleInputChange} placeholder="Contoh: 0855xxxxxx" style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid var(--gray-300)', fontSize: 13 }} />
+            <label style={{ display: 'block', fontSize: 14, marginBottom: 4, fontWeight: 600 }}>No. Telepon</label>
+            <input type="text" name="no_tlpn" value={formInput.no_tlpn} onChange={handleInputChange} placeholder="Contoh: 0855xxxxxx" style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid var(--gray-300)', fontSize: 15 }} />
           </div>
 
           <div>
-            <label style={{ display: 'block', fontSize: 12, marginBottom: 4, fontWeight: 600 }}>Email Akun (Untuk Login)</label>
-            <input type="email" name="email" value={formInput.email} onChange={handleInputChange} placeholder="Contoh: pelanggan@gmail.com" style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid var(--gray-300)', fontSize: 13 }} required />
+            <label style={{ display: 'block', fontSize: 14, marginBottom: 4, fontWeight: 600 }}>Email Akun (Untuk Login)</label>
+            <input type="email" name="email" value={formInput.email} onChange={handleInputChange} placeholder="Contoh: pelanggan@gmail.com" style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid var(--gray-300)', fontSize: 15 }} required />
           </div>
 
           {/* Kolom password disembunyikan/di-disable ketika mengedit demi keamanan */}
           {!isEditing && (
             <div>
-              <label style={{ display: 'block', fontSize: 12, marginBottom: 4, fontWeight: 600 }}>Password Akun</label>
-              <input type="password" name="password" value={formInput.password} onChange={handleInputChange} placeholder="Minimal 6 karakter" style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid var(--gray-300)', fontSize: 13 }} required={!isEditing} />
+              <label style={{ display: 'block', fontSize: 14, marginBottom: 4, fontWeight: 600 }}>Password Akun</label>
+              <input type="password" name="password" value={formInput.password} onChange={handleInputChange} placeholder="Minimal 6 karakter" style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid var(--gray-300)', fontSize: 15 }} required={!isEditing} />
             </div>
           )}
 
           <div>
-            <label style={{ display: 'block', fontSize: 12, marginBottom: 4, fontWeight: 600 }}>Tipe Pemesanan</label>
-            <select name="tipe_pemesanan" value={formInput.tipe_pemesanan} onChange={handleInputChange} style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid var(--gray-300)', fontSize: 13 }}>
+            <label style={{ display: 'block', fontSize: 14, marginBottom: 4, fontWeight: 600 }}>Tipe Pemesanan</label>
+            <select name="tipe_pemesanan" value={formInput.tipe_pemesanan} onChange={handleInputChange} style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid var(--gray-300)', fontSize: 15 }}>
               <option value="Reguler">Reguler</option>
               <option value="Tempo">Tempo (Piutang)</option>
             </select>
           </div>
 
-          <button type="submit" style={{ padding: '10px', borderRadius: 8, border: 'none', background: isEditing ? '#059669' : 'orange', color: 'white', fontWeight: 'bold', cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 6, marginTop: 8, fontSize: 13 }}>
+          <button type="submit" style={{ padding: '10px', borderRadius: 8, border: 'none', background: isEditing ? '#059669' : 'orange', color: 'white', fontWeight: 'bold', cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 6, marginTop: 8, fontSize: 15 }}>
             {isEditing ? <Check size={16} /> : <UserPlus size={16} />} 
             {isEditing ? 'Perbarui Data Profil' : 'Buat Akun & Simpan'}
           </button>
@@ -239,13 +239,13 @@ console.log('Anon Key ada?:', !!import.meta.env.VITE_SUPABASE_ANON_KEY)
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20, flexWrap: 'wrap', gap: 12 }}>
           
           <div style={{ position: 'relative', flex: 1, maxWidth: 260 }}>
-            <input type="text" style={{ width: '100%', padding: '8px 12px 8px 36px', borderRadius: 8, border: '1px solid var(--gray-300)', fontSize: 13 }} placeholder="Cari Nama / Kamar..." value={search} onChange={e => setSearch(e.target.value)} />
+            <input type="text" style={{ width: '100%', padding: '8px 12px 8px 36px', borderRadius: 8, border: '1px solid var(--gray-300)', fontSize: 15 }} placeholder="Cari Nama / Kamar..." value={search} onChange={e => setSearch(e.target.value)} />
             <Search size={16} style={{ position: 'absolute', left: 12, top: 11, color: 'var(--gray-400)' }} />
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <SlidersHorizontal size={14} style={{ color: 'var(--gray-500)' }} />
-            <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)} style={{ padding: '6px 12px', borderRadius: 8, border: '1px solid var(--gray-300)', fontSize: 12 }}>
+            <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)} style={{ padding: '6px 12px', borderRadius: 8, border: '1px solid var(--gray-300)', fontSize: 14 }}>
               <option>Semua</option>
               <option>Aktif</option>
               <option>Tunggakan</option>
@@ -253,7 +253,7 @@ console.log('Anon Key ada?:', !!import.meta.env.VITE_SUPABASE_ANON_KEY)
           </div>
         </div>
 
-        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 15 }}>
           <thead>
             <tr style={{ background: 'var(--gray-50)', borderBottom: '2px solid var(--gray-200)', textAlign: 'left' }}>
               <th style={{ padding: 12 }}>ID Tagihan</th>
@@ -289,7 +289,7 @@ console.log('Anon Key ada?:', !!import.meta.env.VITE_SUPABASE_ANON_KEY)
                       border: 'none',
                       padding: '4px 8px', 
                       borderRadius: 6, 
-                      fontSize: 11, 
+                      fontSize: 14, 
                       fontWeight: 700, 
                       background: p.status ? '#D1FAE5' : '#FEE2E2', 
                       color: p.status ? '#059669' : '#DC2626',
